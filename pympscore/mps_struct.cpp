@@ -95,6 +95,7 @@ void def_pymod_struct(py::module &mod) {
 		.def("velocity", &FluidData::getVelocity, pyrvp::reference_internal)
 		.def("pressure", &FluidData::getPressure, pyrvp::reference_internal)
 		.def("numdens", &FluidData::getParticleNumDens, pyrvp::reference_internal)
+		.def("surfflag", &FluidData::getParticleFlagBC, pyrvp::reference_internal)
 		;
 
 	////////////////////////////////////////

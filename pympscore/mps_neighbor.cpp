@@ -44,6 +44,13 @@ void NeighborTable::clearAll() {
 	}
 }
 
+void NeighborTable::sortAll()
+{
+	for (auto &x : m_table) {
+		x.sortByDistance();
+	}
+}
+
 void NeighborTable::buildFromCache(
 	BucketCache & cache, 
 	EigenRef<const MatrixXd> coords)
@@ -111,6 +118,28 @@ void NeighborTable::buildFromCache(
 	}
 }
 
+void NeighborTable::updateInfo(EigenRef<const MatrixXd> coords)
+{
+	const int npart = this->size();
+
+	for (int ipart = 0; ipart < npart; ipart++) {
+		VectorXd ipos = coords.row(ipart);
+
+		for (auto &neigh : m_table[ipart]) {
+			int jpart = neigh.index;
+			
+			VectorXd xij = coords.row(jpart);
+			xij -= ipos;
+			
+			double rij = xij.norm();
+
+			// set new values
+			neigh.distance = rij;
+		}
+	}
+
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -146,6 +175,7 @@ void def_pymod_neighbor(py::module &mod) {
 		.def_property("cutoff", &NeighborTable::getCutoff, &NeighborTable::setCutoff)
 		.def("resize", &NeighborTable::resize)
 		.def("buildFromCache", &NeighborTable::buildFromCache)
+		.def("updateInfo", &NeighborTable::updateInfo)
 		.def("__len__", &NeighborTable::size)
 		.def("__getitem__", &NeighborTable::getNeighborList, pyrvp::reference_internal)
 		;

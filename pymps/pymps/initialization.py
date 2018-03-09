@@ -32,7 +32,27 @@ def gen_simple_block(dh: float, num, vlo):
     return data
 ####
 
+def load_prof_file(filename: str, ndim=3) -> dict:
+    '''Load old PROF file'''
+    prof = {}
+    prof['type'] = []
+    prof['pos'] = []
+    with open(filename) as fp:
+        #skip time
+        fp.readline()
 
+        npart = int(fp.readline())
+        
+        prof['npart'] = npart
+
+        for i in range(npart):
+            line:str = fp.readline()
+            fields = line.strip().split()
+            prof['type'].append(int(fields[0]))
+            prof['pos'].append([float(x) for x in fields[1:1+ndim]])
+
+    return prof
+####
 
 
 

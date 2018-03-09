@@ -72,9 +72,17 @@ public:
 
 	void reserveAll(int cap);
 
+	// clear all
 	void clearAll();
 
+	// sort all by distance
+	void sortAll();
+
+	// build table using cache
 	void buildFromCache(BucketCache &cache, EigenRef<const MatrixXd> coords);
+
+	// only update neighbor info, do not rebuild neighbor list
+	void updateInfo(EigenRef<const MatrixXd> coords);
 };
 
 

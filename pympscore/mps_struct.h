@@ -18,6 +18,12 @@ enum class ParticleType
 
 };
 
+enum class BoundaryFlag {
+	INTERIOR = 0,
+	SURFACE,
+};
+
+
 
 
 struct FluidData

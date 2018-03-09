@@ -9,11 +9,24 @@ class WeightFunction;
 class NeighborTable;
 
 
+class OperatorBase {
+public:
+
+};
+
+
 // 
 void calcNumberDensity(
 	const WeightFunction &wfun,
+	double re,
 	const NeighborTable &table,
 	EigenRef<VectorXd> values);
+
+//
+void tagBoundaryFlag(
+	double ntol,
+	EigenRef<const VectorXd> &ndens,
+	EigenRef<VectorXi> &flag);
 
 
 // 
@@ -30,6 +43,24 @@ void calcPresEos(
 	EigenRef<const VectorXd> numdens,
 	EigenRef<VectorXd> pres,
 	double pref, double nzero);
+
+//
+void calcLaplacian(
+	const WeightFunction &wfun, 
+	double re, double coef,
+	const NeighborTable &table,
+	EigenRef<const VectorXd> phi,
+	EigenRef<VectorXd> lap);
+
+//
+void solvePres(
+	const WeightFunction &wfun,
+	double re, double coef,
+	const NeighborTable &table, 
+	EigenRef<const VectorXi> flag,
+	EigenRef<VectorXd> rhs,
+	EigenRef<VectorXd> sol);
+
 
 
 
